@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
 
 import { UserEntity } from './entities/user.entity';
-import { DatabaseService } from './../services/database.service';
+import { DynamicDatabaseService } from '../shared/services/dynamic-database.service';
 import { DbConfigDto } from './dto/db-config.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly dataBaseService: DatabaseService) {}
+  constructor(
+    private readonly dynamicDatabaseService: DynamicDatabaseService,
+  ) {}
 
   async findUsers(dbConfigDto: DbConfigDto) {
-    const source = await this.dataBaseService.getDataSource(dbConfigDto);
+    const source = await this.dynamicDatabaseService.getDataSource(dbConfigDto);
 
     const [users, count] = await source
       .getRepository(UserEntity)

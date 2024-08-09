@@ -1,11 +1,11 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 
-import { UserEntity } from './../user/entities/user.entity';
-import { DbConfigDto } from './../user/dto/db-config.dto';
+import { UserEntity } from '../../user/entities/user.entity';
+import { DbConfigDto } from '../../user/dto/db-config.dto';
 
 @Injectable()
-export class DatabaseService {
+export class DynamicDatabaseService {
   private dataSource: DataSource;
 
   async getDataSource(dbConfigDto: DbConfigDto) {
@@ -19,7 +19,7 @@ export class DatabaseService {
           port,
           username,
           password,
-          database, //cinema, casino
+          database, // casino, cinema
           entities: [UserEntity],
           synchronize: false,
         });
