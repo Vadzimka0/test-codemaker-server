@@ -19,7 +19,7 @@ export class DynamicDatabaseService {
           port,
           username,
           password,
-          database, // casino, cinema
+          database,
           entities: [UserEntity],
           synchronize: false,
         });
