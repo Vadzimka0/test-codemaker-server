@@ -1,18 +1,32 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { FilterOperator, PaginateQuery, paginate } from 'nestjs-paginate';
 
 import { UserEntity } from './entities/user.entity';
 import { DynamicDatabaseService } from '../shared/services/dynamic-database.service';
-import { DbConfigDto } from './dto/db-config.dto';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly dynamicDatabaseService: DynamicDatabaseService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  async findUsers(dbConfigDto: DbConfigDto, query: PaginateQuery) {
-    const source = await this.dynamicDatabaseService.getDataSource(dbConfigDto);
+  async findUsers(login: string, query: PaginateQuery) {
+    const dbConfigString = await this.cacheManager.get<string>(login);
+
+    if (!dbConfigString) {
+      throw new InternalServerErrorException('Something went wrong');
+    }
+
+    const dbConfig = JSON.parse(dbConfigString);
+
+    const source = await this.dynamicDatabaseService.getDataSource(dbConfig);
 
     try {
       const result = await paginate(query, source.getRepository(UserEntity), {
@@ -27,7 +41,7 @@ export class UserService {
           'register_at',
         ],
         nullSort: 'last',
-        defaultSortBy: [['id', 'ASC']],
+        defaultSortBy: [['id', 'DESC']],
         filterableColumns: {
           main_group: [FilterOperator.IN],
           status: [FilterOperator.IN],
@@ -35,6 +49,7 @@ export class UserService {
         },
         maxLimit: 5,
       });
+
       await source.destroy();
 
       return result;

@@ -8,8 +8,8 @@ import { DbConfigDto } from '../../user/dto/db-config.dto';
 export class DynamicDatabaseService {
   private dataSource: DataSource;
 
-  async getDataSource(dbConfigDto: DbConfigDto) {
-    const { host, port, username, password, database } = dbConfigDto;
+  async getDataSource(dbConfig: DbConfigDto) {
+    const { host, port, username, password, database } = dbConfig;
 
     try {
       if (!this.dataSource?.isInitialized) {
