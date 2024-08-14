@@ -19,7 +19,7 @@ export class DynamicDatabaseService {
     const database = 'casino';
 
     try {
-      console.log('init before: ', this.dataSource.isInitialized);
+      console.log('init before: ', this.dataSource?.isInitialized);
       // if (!this.dataSource?.isInitialized) {
       this.dataSource = new DataSource({
         type: 'mysql',
@@ -34,8 +34,8 @@ export class DynamicDatabaseService {
       // }
       await this.dataSource.initialize();
 
-      console.log('init after: ', this.dataSource.isInitialized);
-      console.log('entityMetadatas: ', this.dataSource.entityMetadatas);
+      console.log('init after: ', this.dataSource?.isInitialized);
+      console.log('entityMetadatas: ', this.dataSource?.entityMetadatas);
 
       return this.dataSource;
     } catch (error) {
