@@ -47,7 +47,6 @@ export class UserService {
           status: [FilterOperator.IN],
           currency: [FilterOperator.IN],
         },
-        maxLimit: 5,
       });
 
       await source.destroy();

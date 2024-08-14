@@ -26,11 +26,12 @@ export class DynamicDatabaseService {
       }
 
       await this.dataSource.initialize();
+
+      return this.dataSource;
     } catch (error) {
       console.error('Error connecting to the database:', error);
+      await this.dataSource.destroy();
       throw new InternalServerErrorException();
     }
-
-    return this.dataSource;
   }
 }
