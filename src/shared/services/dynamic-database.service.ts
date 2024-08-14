@@ -28,8 +28,8 @@ export class DynamicDatabaseService {
         username,
         password,
         database,
-        // entities: [UserEntity],
-        synchronize: true,
+        entities: [UserEntity],
+        synchronize: false,
       });
       // }
       await this.dataSource.initialize();
