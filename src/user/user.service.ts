@@ -54,6 +54,7 @@ export class UserService {
       return result;
     } catch (error) {
       await source.destroy();
+      console.log(error);
 
       throw new InternalServerErrorException('Something went wrong');
     }
