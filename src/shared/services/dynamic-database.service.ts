@@ -19,26 +19,19 @@ export class DynamicDatabaseService {
     const database = 'casino';
 
     try {
-      console.log('init before: ', this.dataSource?.isInitialized);
-      // if (!this.dataSource?.isInitialized) {
-      this.dataSource = new DataSource({
-        type: 'mysql',
-        host,
-        port,
-        username,
-        password,
-        database,
-        entities: [UserEntity],
-        synchronize: false,
-      });
-      // }
+      if (!this.dataSource?.isInitialized) {
+        this.dataSource = new DataSource({
+          type: 'mysql',
+          host,
+          port,
+          username,
+          password,
+          database,
+          entities: [UserEntity],
+          synchronize: false,
+        });
+      }
       await this.dataSource.initialize();
-
-      console.log('init after: ', this.dataSource?.isInitialized);
-      console.log(
-        'entityMetadatas: ',
-        this.dataSource.getRepository(UserEntity),
-      );
 
       return this.dataSource;
     } catch (error) {
