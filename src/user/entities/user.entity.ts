@@ -32,73 +32,73 @@ export class UserEntity {
   // @Column({ type: 'decimal', precision: 7, scale: 2, default: 0.0 })
   // bonus_balance: number;
 
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment', { type: 'bigint' })
   id: number;
 
-  @Column({ unique: true })
+  @Column('varchar', { length: 255, unique: true, default: null })
   email: string;
 
-  @Column({ unique: true })
+  @Column('varchar', { length: 128, unique: true, default: null })
   login: string;
 
-  @Column()
+  @Column('varchar', { length: 60, default: null })
   pass: string;
 
-  @Column('tinyint')
+  @Column('tinyint', { default: 0 })
   status: number;
 
-  @Column('tinyint')
+  @Column('tinyint', { default: 0 })
   kyc_status: number;
 
-  @Column('tinyint')
+  @Column('tinyint', { default: 0 })
   group: number;
 
-  @Column({ unique: true })
+  @Column('varchar', { length: 36, unique: true, default: null })
   token: string;
 
-  @Column('varchar', { length: 3 })
+  @Column('varchar', { length: 3, default: null })
   currency: string;
 
-  @Column('varchar', { length: 128 })
+  @Column('varchar', { length: 128, default: null })
   remember_token: string | null;
 
-  @Column('bigint', { nullable: true })
+  @Column('bigint', { default: 0 })
   balance: number;
 
-  @Column('bigint', { nullable: true })
+  @Column('bigint', { default: 0 })
   bonus_balance: number;
 
-  @Column('bigint', { nullable: true })
+  @Column('bigint', { default: 0 })
   wager_amount: number;
 
-  @Column('bigint', { nullable: true })
+  @Column('bigint', { default: 0 })
   wager_need: number;
 
-  @Column('bigint', { nullable: true })
+  @Column('bigint', { default: 0 })
   wager_bet_min: number;
 
-  @Column('bigint', { nullable: true })
+  @Column('bigint', { default: 0 })
   wager_bet_max: number;
 
-  @Column('int', { nullable: true })
+  @Column('int', { default: 0 })
   freespins_number: number;
 
-  @Column('bigint', { nullable: true })
+  @Column('bigint', { default: 0 })
   freespins_bet_amount: number;
 
-  @Column('varchar', { length: 2, nullable: true })
+  @Column('varchar', { length: 2, default: null })
   country: string;
 
-  @Column('varchar', { length: 2, nullable: true })
+  @Column('varchar', { length: 2, default: null })
   lang: string;
 
-  @Column('tinyint', { nullable: true })
+  @Column('tinyint', { default: 0 })
   verified_email: number;
 
   @Column('timestamp')
   date_reg: Date;
 
-  @Column('timestamp', { nullable: true })
+  @Column('timestamp', { default: null })
   date_last_activity: Date;
 
   // @ManyToOne(() => Currency)
