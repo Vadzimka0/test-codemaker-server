@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 
-import { UserEntity } from '../../user/entities/user.entity';
+// import { UserEntity } from '../../user/entities/user.entity';
 import { DbConfigDto } from '../../user/dto/db-config.dto';
 
 @Injectable()
@@ -9,23 +9,31 @@ export class DynamicDatabaseService {
   private dataSource: DataSource;
 
   async getDataSource(dbConfig: DbConfigDto) {
-    const { host, port, username, password, database } = dbConfig;
+    // const { host, port, username, password, database } = dbConfig;
+    const host = 'cs-1-dev-vivajack-do-user-15954722-0.c.db.ondigitalocean.com';
+    const port = 25060;
+    const username = 'doadmin';
+    const password = 'AVNS_YhLE5W8gCmrOy5x0Dez';
+    const database = 'casino';
 
     try {
-      if (!this.dataSource?.isInitialized) {
-        this.dataSource = new DataSource({
-          type: 'postgres',
-          host,
-          port,
-          username,
-          password,
-          database,
-          entities: [UserEntity],
-          synchronize: false,
-        });
-      }
-
+      console.log('init before: ', this.dataSource.isInitialized);
+      // if (!this.dataSource?.isInitialized) {
+      this.dataSource = new DataSource({
+        type: 'mysql',
+        host,
+        port,
+        username,
+        password,
+        database,
+        // entities: [UserEntity],
+        synchronize: true,
+      });
+      // }
       await this.dataSource.initialize();
+
+      console.log('init after: ', this.dataSource.isInitialized);
+      console.log('entityMetadatas: ', this.dataSource.entityMetadatas);
 
       return this.dataSource;
     } catch (error) {
