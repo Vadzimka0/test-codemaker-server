@@ -49,7 +49,7 @@ export class UserService {
         },
       });
 
-      // await source.destroy();
+      await source.destroy();
 
       return result;
     } catch (error) {
