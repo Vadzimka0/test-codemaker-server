@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 
 // import { UserEntity } from '../../user/entities/user.entity';
@@ -6,6 +7,7 @@ import { DbConfigDto } from '../../user/dto/db-config.dto';
 
 @Injectable()
 export class DynamicDatabaseService {
+  constructor(private readonly configService: ConfigService) {}
   private dataSource: DataSource;
 
   async getDataSource(dbConfig: DbConfigDto) {
@@ -13,7 +15,7 @@ export class DynamicDatabaseService {
     const host = 'cs-1-dev-vivajack-do-user-15954722-0.c.db.ondigitalocean.com';
     const port = 25060;
     const username = 'doadmin';
-    const password = 'AVNS_YhLE5W8gCmrOy5x0Dez';
+    const password = this.configService.get('MYSQL_PASS');
     const database = 'casino';
 
     try {
