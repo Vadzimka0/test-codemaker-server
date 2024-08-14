@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 
-// import { UserEntity } from '../../user/entities/user.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 import { DbConfigDto } from '../../user/dto/db-config.dto';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class DynamicDatabaseService {
         username,
         password,
         database,
-        // entities: [UserEntity],
+        entities: [UserEntity],
         synchronize: true,
       });
       // }
