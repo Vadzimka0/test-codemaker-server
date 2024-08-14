@@ -28,14 +28,17 @@ export class DynamicDatabaseService {
         username,
         password,
         database,
-        entities: [UserEntity],
+        // entities: [UserEntity],
         synchronize: true,
       });
       // }
       await this.dataSource.initialize();
 
       console.log('init after: ', this.dataSource?.isInitialized);
-      console.log('entityMetadatas: ', this.dataSource?.entityMetadatas);
+      console.log(
+        'entityMetadatas: ',
+        this.dataSource.getRepository(UserEntity),
+      );
 
       return this.dataSource;
     } catch (error) {
