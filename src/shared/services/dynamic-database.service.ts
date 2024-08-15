@@ -11,19 +11,16 @@ export class DynamicDatabaseService {
   private dataSource: DataSource;
 
   async getDataSource(dbConfig: DbConfigDto) {
-    // const { host, port, username, password, database } = dbConfig;
-    const host = 'cs-1-dev-vivajack-do-user-15954722-0.c.db.ondigitalocean.com';
-    const port = 25060;
-    const username = 'doadmin';
-    const password = this.configService.get('MYSQL_PASS');
-    const database = 'casino';
+    const { host: hostUrl, username, pass: password, database } = dbConfig;
+
+    const [host, port] = hostUrl.split(':');
 
     try {
       if (!this.dataSource?.isInitialized) {
         this.dataSource = new DataSource({
           type: 'mysql',
           host,
-          port,
+          port: Number(port),
           username,
           password,
           database,
@@ -31,6 +28,7 @@ export class DynamicDatabaseService {
           synchronize: false,
         });
       }
+
       await this.dataSource.initialize();
 
       return this.dataSource;

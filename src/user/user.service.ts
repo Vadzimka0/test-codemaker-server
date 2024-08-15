@@ -18,13 +18,13 @@ export class UserService {
   ) {}
 
   async findUsers(login: string, query: PaginateQuery) {
-    const dbConfigString = await this.cacheManager.get<string>(login);
+    const settings = await this.cacheManager.get<string>(login);
 
-    if (!dbConfigString) {
+    if (!settings) {
       throw new InternalServerErrorException('Something went wrong');
     }
 
-    const dbConfig = JSON.parse(dbConfigString);
+    const { db: dbConfig } = JSON.parse(settings);
 
     const source = await this.dynamicDatabaseService.getDataSource(dbConfig);
 
@@ -55,7 +55,6 @@ export class UserService {
     } catch (error) {
       await source.destroy();
       console.log('Error source database:', error);
-
       throw new InternalServerErrorException('Something went wrong');
     }
   }

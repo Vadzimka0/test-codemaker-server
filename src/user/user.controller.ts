@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 import { UserService } from './user.service';
@@ -11,7 +11,6 @@ export class UserController {
 
   @Get('users')
   @UseGuards(JwtAuthGuard)
-  @HttpCode(200)
   async findUsers(
     @Req() request: ExpressRequestType,
     @Paginate() query: PaginateQuery,
